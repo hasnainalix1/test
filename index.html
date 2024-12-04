@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hasnain - Quiz</title>
+</head>
+<body>
+
+    <div id="signupPage" class="container">
+        <div class="form-card">
+            <h2>Signup</h2>
+            <input type="email" id="gmail" placeholder="Enter Gmail (e.g. example@gmail.com)" class="input-field">
+            <input type="text" id="name" placeholder="Enter Name" class="input-field">
+            <input type="password" id="password" placeholder="Enter Password" class="input-field">
+            <button id="signupBtn" class="submit-btn">Signup</button>
+            <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
+            <p id="signupError" style="color:red; display:none;">This email is already registered. Please log in.</p>
+        </div>
+    </div>
+
+    <div id="loginPage" class="container hidden">
+        <div class="form-card">
+            <h2>Login</h2>
+            <input type="email" id="loginGmail" placeholder="Enter Gmail" class="input-field">
+            <input type="password" id="loginPassword" placeholder="Enter Password" class="input-field">
+            <button id="loginBtn" class="submit-btn">Login</button>
+            <p>Don't have an account? <a href="#" id="signupLinkLogin">Signup</a></p>
+            <p id="loginError" style="color:red; display:none;">Invalid email or password.</p>
+        </div>
+    </div>
+
+    <div id="homePage" class="container hidden">
+        <div class="form-card">
+            <h2>Welcome to the Quiz App</h2>
+            <div class="quiz-card" id="htmlCard">
+                <h3>HTML Quiz</h3>
+            </div>
+            <div class="quiz-card" id="cssCard">
+                <h3>CSS Quiz</h3>
+            </div>
+            <div class="quiz-card" id="jsCard">
+                <h3>JavaScript Quiz</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="quizPage" class="container hidden">
+        <div class="form-card">
+            <h2 id="quizTitle">Quiz</h2>
+            <div id="questionContainer"></div>
+            <button id="nextBtn" class="submit-btn">Next Question</button>
+            <p id="score"></p>
+        </div>
+    </div>
+
+    <div id="resultsPage" class="container hidden">
+        <div class="form-card">
+            <h2>Quiz Results</h2>
+            <p id="finalScore"></p>
+            <button id="finishBtn" class="submit-btn">Finish</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
