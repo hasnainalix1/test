@@ -1,170 +1,90 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const signupBtn = document.getElementById('signupBtn');
-    const loginBtn = document.getElementById('loginBtn');
-    const signupLink = document.getElementById('signupLink');
-    const loginLink = document.getElementById('signupLinkLogin');
-    const gmailInput = document.getElementById('gmail');
-    const nameInput = document.getElementById('name');
-    const passwordInput = document.getElementById('password');
-    const loginGmailInput = document.getElementById('loginGmail');
-    const loginPasswordInput = document.getElementById('loginPassword');
-    const signupError = document.getElementById('signupError');
-    const loginError = document.getElementById('loginError');
-    const htmlCard = document.getElementById('htmlCard');
-    const cssCard = document.getElementById('cssCard');
-    const jsCard = document.getElementById('jsCard');
-    const nextBtn = document.getElementById('nextBtn');
-    const questionContainer = document.getElementById('questionContainer');
-    const scoreElement = document.getElementById('score');
-    const finishBtn = document.getElementById('finishBtn');
-    const finalScoreElement = document.getElementById('finalScore');
-    const timerElement = document.getElementById('timer'); // Timer element
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
 
-    let username = '';
-    let score = 0;
-    let currentQuiz = [];
-    let currentQuestionIndex = 0;
-    let timer;
-    let timeLeft = 10;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    const questions = {
-        html: [
-            { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"], answer: "Hyper Text Markup Language" },
-            { question: "Which of the following is correct HTML tag?", options: ["<a>", "</div>", "<section>"], answer: "<a>" },
-            { question: "Which element is used to define an unordered list?", options: ["<ul>", "<li>", "<ol>"], answer: "<ul>" },
-        ],
-        css: [
-            { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"], answer: "Cascading Style Sheets" },
-            { question: "Which property is used to change the background color in CSS?", options: ["color", "bgcolor", "background-color"], answer: "background-color" },
-            { question: "Which of these is used to select an HTML element by class?", options: [".", "#", "$"], answer: "." },
-        ],
-        js: [
-            { question: "Which company developed JavaScript?", options: ["Google", "Netscape", "Microsoft"], answer: "Netscape" },
-            { question: "Which symbol is used for comments in JavaScript?", options: ["//", "/*", "#"], answer: "//" },
-            { question: "What does DOM stand for in JavaScript?", options: ["Document Object Model", "Digital Online Manager", "Data Online Management"], answer: "Document Object Model" },
-        ]
-    };
+.form-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
 
-    function showSignupPage() {
-        document.getElementById('signupPage').classList.remove('hidden');
-        document.getElementById('loginPage').classList.add('hidden');
-    }
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    function showLoginPage() {
-        document.getElementById('loginPage').classList.remove('hidden');
-        document.getElementById('signupPage').classList.add('hidden');
-    }
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-    function showHomePage() {
-        document.getElementById('homePage').classList.remove('hidden');
-        document.getElementById('loginPage').classList.add('hidden');
-    }
+.submit-btn:hover {
+    background-color: red;
+}
 
-    function showQuizPage(quizType) {
-        currentQuiz = questions[quizType];
-        currentQuestionIndex = 0;
-        score = 0;
-        displayQuestion();
-        document.getElementById('quizPage').classList.remove('hidden');
-        document.getElementById('homePage').classList.add('hidden');
-    }
+.hidden {
+    display: none;
+}
 
-    function displayQuestion() {
-        const question = currentQuiz[currentQuestionIndex];
-        questionContainer.innerHTML = `
-            <p>${question.question}</p>
-            ${question.options.map(option => `<button class="option-btn">${option}</button>`).join('')}
-        `;
-        document.querySelectorAll('.option-btn').forEach((button) => {
-            button.addEventListener('click', () => {
-                clearInterval(timer); // Stop the timer when an answer is clicked
-                if (button.textContent === question.answer) {
-                    score++;
-                }
-                currentQuestionIndex++;
-                if (currentQuestionIndex < currentQuiz.length) {
-                    displayQuestion();
-                } else {
-                    displayResults();
-                }
-            });
-        });
-        startTimer(); // Start the timer when question is displayed
-        nextBtn.classList.add('hidden'); // Hide the Next button while the timer runs
-    }
+.quiz-card {
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+}
 
-    function startTimer() {
-        timeLeft = 10; // Reset the timer for each question
-        timerElement.textContent = timeLeft;
-        timer = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                nextQuestion();
-            }
-        }, 1000);
-    }
+.quiz-card:hover {
+    background-color: red;
+    color: white;
+}
 
-    function nextQuestion() {
-        if (currentQuestionIndex < currentQuiz.length) {
-            displayQuestion();
-        } else {
-            displayResults();
-        }
-    }
+.option-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 80%;
+}
 
-    function displayResults() {
-        document.getElementById('quizPage').classList.add('hidden');
-        document.getElementById('resultsPage').classList.remove('hidden');
-        finalScoreElement.textContent = `${username}, your score: ${score}/${currentQuiz.length}`;
-    }
+.option-btn:hover {
+    background-color: red;
+    color: white;
+}
 
-    signupBtn.addEventListener('click', () => {
-        const email = gmailInput.value;
-        const name = nameInput.value;
-        const password = passwordInput.value;
+#timerContainer {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+}
 
-        if (!email || !name || !password || !email.endsWith('@gmail.com')) {
-            alert("Please enter a valid Gmail address and all fields.");
-            return;
-        }
-
-        const existingUser = localStorage.getItem('user');
-        if (existingUser) {
-            signupError.style.display = 'block';
-            showLoginPage();
-            return;
-        }
-
-        localStorage.setItem('user', JSON.stringify({ email, name, password }));
-        showLoginPage();
-    });
-
-    loginBtn.addEventListener('click', () => {
-        const email = loginGmailInput.value;
-        const password = loginPasswordInput.value;
-
-        const user = JSON.parse(localStorage.getItem('user'));
-
-        if (!user || user.email !== email || user.password !== password) {
-            loginError.style.display = 'block';
-            return;
-        }
-
-        username = user.name;
-        showHomePage();
-    });
-
-    htmlCard.addEventListener('click', () => showQuizPage('html'));
-    cssCard.addEventListener('click', () => showQuizPage('css'));
-    jsCard.addEventListener('click', () => showQuizPage('js'));
-
-    finishBtn.addEventListener('click', () => {
-        location.reload();
-    });
-
-    showSignupPage();
-});
-
-        
+#resultsPage {
+    text-align: center;
+}
