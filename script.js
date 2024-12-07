@@ -18,24 +18,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreElement = document.getElementById('score');
     const finishBtn = document.getElementById('finishBtn');
     const finalScoreElement = document.getElementById('finalScore');
+    const timerElement = document.getElementById('timer'); // Timer element
 
     let username = '';
     let score = 0;
     let currentQuiz = [];
     let currentQuestionIndex = 0;
+    let timer;
+    let timeLeft = 10;
 
     const questions = {
         html: [
             { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"], answer: "Hyper Text Markup Language" },
             { question: "Which of the following is correct HTML tag?", options: ["<a>", "</div>", "<section>"], answer: "<a>" },
+            { question: "Which element is used to define an unordered list?", options: ["<ul>", "<li>", "<ol>"], answer: "<ul>" },
+            { question: "What does the <title> tag define?", options: ["The name of the webpage", "The background color", "The text on the page"], answer: "The name of the webpage" },
+            { question: "What is the correct HTML tag for inserting an image?", options: ["<img>", "<image>", "<src>"], answer: "<img>" },
+            { question: "Which element is used to create a hyperlink?", options: ["<a>", "<link>", "<h1>"], answer: "<a>" },
+            { question: "What does the <body> tag define?", options: ["Header of the page", "Main content of the page", "Footer of the page"], answer: "Main content of the page" },
+            { question: "Which tag is used to create a line break?", options: ["<br>", "<hr>", "<break>"], answer: "<br>" },
         ],
         css: [
             { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"], answer: "Cascading Style Sheets" },
             { question: "Which property is used to change the background color in CSS?", options: ["color", "bgcolor", "background-color"], answer: "background-color" },
+            { question: "Which of these is used to select an HTML element by class?", options: [".", "#", "$"], answer: "." },
+            { question: "What property is used to change the font size in CSS?", options: ["font-size", "text-size", "font-style"], answer: "font-size" },
+            { question: "Which CSS property controls the text color?", options: ["color", "text-color", "background-color"], answer: "color" },
+            { question: "Which tag is used to define an unordered list?", options: ["<ul>", "<ol>", "<li>"], answer: "<ul>" },
+            { question: "Which of the following is correct CSS syntax?", options: ["color: red;", "color = red;", "color: red"], answer: "color: red;" },
+            { question: "How do you select an element with id 'example' in CSS?", options: ["#example", ".example", "example"], answer: "#example" },
         ],
         js: [
             { question: "Which company developed JavaScript?", options: ["Google", "Netscape", "Microsoft"], answer: "Netscape" },
             { question: "Which symbol is used for comments in JavaScript?", options: ["//", "/*", "#"], answer: "//" },
+            { question: "What does DOM stand for in JavaScript?", options: ["Document Object Model", "Digital Online Manager", "Data Online Management"], answer: "Document Object Model" },
+            { question: "Which of the following is a primitive data type in JavaScript?", options: ["string", "object", "array"], answer: "string" },
+            { question: "Which function is used to parse a JSON string in JavaScript?", options: ["JSON.parse()", "parseJSON()", "JSON.decode()"], answer: "JSON.parse()" },
+            { question: "Which method adds a new item to an array in JavaScript?", options: ["push()", "pop()", "shift()"], answer: "push()" },
+            { question: "What is the correct syntax for declaring a variable in JavaScript?", options: ["var x = 10;", "x = 10;", "variable x = 10;"], answer: "var x = 10;" },
+            { question: "How do you write an IF statement in JavaScript?", options: ["if (x == 10)", "if x == 10", "if x = 10"], answer: "if (x == 10)" },
         ]
     };
 
@@ -69,8 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>${question.question}</p>
             ${question.options.map(option => `<button class="option-btn">${option}</button>`).join('')}
         `;
-        document.querySelectorAll('.option-btn').forEach((button, index) => {
+        document.querySelectorAll('.option-btn').forEach((button) => {
             button.addEventListener('click', () => {
+                clearInterval(timer); // Stop the timer when an answer is clicked
                 if (button.textContent === question.answer) {
                     score++;
                 }
@@ -82,6 +104,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+        startTimer(); // Start the timer when the question is displayed
+        nextBtn.classList.add('hidden'); // Hide the Next button while the timer runs
+    }
+
+    function startTimer() {
+        timeLeft = 10; // Reset the timer for each question
+        timerElement.textContent = timeLeft;
+        timer = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer); // Stop the timer when it reaches 0
+                nextQuestion(); // Automatically move to the next question
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < currentQuiz.length) {
+            displayQuestion();
+        } else {
+            displayResults();
+        }
     }
 
     function displayResults() {
@@ -133,5 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
     finishBtn.addEventListener('click', () => {
         location.reload();
     });
+
     showSignupPage();
 });
