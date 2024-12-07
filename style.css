@@ -78,6 +78,13 @@ body {
     color: white;
 }
 
+#timerContainer {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+}
+
 #resultsPage {
     text-align: center;
 }
