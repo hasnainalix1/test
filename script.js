@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreElement = document.getElementById('score');
     const finishBtn = document.getElementById('finishBtn');
     const finalScoreElement = document.getElementById('finalScore');
-    const timerElement = document.getElementById('timer'); // Timer element
+    const timerElement = document.getElementById('timer'); 
 
     let username = '';
     let score = 0;
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.querySelectorAll('.option-btn').forEach((button) => {
             button.addEventListener('click', () => {
-                clearInterval(timer); // Stop the timer when an answer is clicked
+                clearInterval(timer); 
                 if (button.textContent === question.answer) {
                     score++;
                 }
@@ -104,19 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-        startTimer(); // Start the timer when the question is displayed
-        nextBtn.classList.add('hidden'); // Hide the Next button while the timer runs
+        startTimer(); 
+        nextBtn.classList.add('hidden');
     }
 
     function startTimer() {
-        timeLeft = 10; // Reset the timer for each question
+        timeLeft = 10; 
         timerElement.textContent = timeLeft;
         timer = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
             if (timeLeft <= 0) {
-                clearInterval(timer); // Stop the timer when it reaches 0
-                nextQuestion(); // Automatically move to the next question
+                clearInterval(timer);
+                nextQuestion();
             }
         }, 1000);
     }
