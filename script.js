@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayQuestion() {
         const question = currentQuiz[currentQuestionIndex];
-        questionContainer.innerHTML = `
+        questionContainer.innerText = `
             <p>${question.question}</p>
             ${question.options.map(option => `<button class="option-btn">${option}</button>`).join('')}
         `;
